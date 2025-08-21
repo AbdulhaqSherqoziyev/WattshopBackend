@@ -47,4 +47,4 @@ exports.deleteAdmin = async (req, res) => {
   if (!admin) return res.status(404).json({ msg: 'Admin not found' });
   await admin.destroy();
   res.json({ msg: 'Admin deleted' });
-};categories.js
+}

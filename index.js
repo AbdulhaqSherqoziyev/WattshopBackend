@@ -1,22 +1,25 @@
 // app.js (or index.js) - Entry point of the application
 const express = require('express');
-const sequelize = require('./config/db');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const adminRoutes = require('./routes/admins');
-const categoryRoutes = require('./routes/categories');
-const productRoutes = require('./routes/products');
-const productImageRoutes = require('./routes/product_images');
-const cartRoutes = require('./routes/carts');
-const orderRoutes = require('./routes/orders');
-const deliveryRoutes = require('./routes/deliveries');
-const notificationRoutes = require('./routes/notifications');
-const likeRoutes = require('./routes/likes');
-const reviewRoutes = require('./routes/reviews');
-const settingRoutes = require('./routes/settings');
+const sequelize = require('./src/config/db');
+const authRoutes = require('./src/routes/auth');
+const userRoutes = require('./src/routes/users');
+const adminRoutes = require('./src/routes/admins');
+const categoryRoutes = require('./src/routes/categories');
+const productRoutes = require('./src/routes/products');
+const productImageRoutes = require('./src/routes/product_images');
+const cartRoutes = require('./src/routes/carts');
+const orderRoutes = require('./src/routes/orders');
+const deliveryRoutes = require('./src/routes/deliveries');
+const notificationRoutes = require('./src/routes/notifications');
+const likeRoutes = require('./src/routes/likes');
+const reviewRoutes = require('./src/routes/reviews');
+const settingRoutes = require('./src/routes/settings');
+const setupSwagger = require("./swagger"); 
 
 const app = express();
 app.use(express.json());
+setupSwagger(app);
+
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -32,6 +35,17 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/settings', settingRoutes);
+
+
+
+
+
+
+
+sequelize.authenticate()
+  .then(() => console.log('✅ Database connected'))
+  .catch(err => console.error('❌ Database connection failed:', err));
+
 
 // Sync database and start server
 sequelize.sync({ force: false }).then(() => {
